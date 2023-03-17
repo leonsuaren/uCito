@@ -6,19 +6,6 @@ export const UcitoDataContext = createContext();
 export const UcitoDataContextProvider = ({ children }) => {
   const [ucitoData, setUcitoData] = useState();
   const [state, setState] = useState([]);
-  let data = JSON.stringify({
-    "collection": "cities_names",
-    "database": "uCito",
-    "dataSource": "ucitoCluster"
-  });
-  let config = {
-    method: 'post',
-    url: 'http://localhost:8080/api/states',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: data
-  };
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/states').then((response) => {

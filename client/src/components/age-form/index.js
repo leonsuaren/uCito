@@ -1,1 +1,0 @@
-export { AgeForm } from './AgeForm';
