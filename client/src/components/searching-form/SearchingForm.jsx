@@ -2,16 +2,23 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
 import { UcitoDataContext } from '../../context/api';
+import { useFetch } from '../../hooks';
+import { DataSource } from '../../components';
 
 import { Button, Input, Alert } from '@mui/material';
 
 import './style.css';
 
-export const SearchingForm = ({ ucitoData }) => {
+export const SearchingForm = ({getDataFunc, state, resourceName }) => {
   const ucitoDataContext = useContext(UcitoDataContext);
   const [text, setText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
+  console.log(state);
+  const getServerData = uri => async () => {
+    const response = await axios.post(uri)
+    return response.data;
+  }
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -22,25 +29,27 @@ export const SearchingForm = ({ ucitoData }) => {
       });
     }
     else if (suggestions.length === 0) {
-      setError({
-        error: true,
-        message: 'No Matching States!'
-      });
+      // setError({
+      //   error: true,
+      //   message: 'No Matching States!'
+      // });
     }
-    await axios.post('http://localhost:8080/api/states/search-state', {state: text}).then((response) => {
-      ucitoDataContext.setState(response.data.state[0].Cities);
-    }).catch((error) => {
-      setError({
-        error: true,
-        message: 'Something went wrong!'
-      });
-    });
+    resourceName='state'
+    getDataFunc(getServerData(`http://localhost:8080/api/states/search-state/${text}`))
+    // await axios.post('http://localhost:8080/api/states/search-state', { state: text }).then((response) => {
+    //   ucitoDataContext.setState(response.data.state[0].Cities);
+    // }).catch((error) => {
+    //   // setError({
+    //   //   error: true,
+    //   //   message: 'Something went wrong!'
+    //   // });
+    // });
     setSuggestions([]);
     setTimeout(() => {
-      setError({
-        error: false,
-        message: ''
-      });
+      // setError({
+      //   error: false,
+      //   message: ''
+      // });
     }, 3000);
   };
 
@@ -52,17 +61,16 @@ export const SearchingForm = ({ ucitoData }) => {
   const handleOnChange = (text) => {
     let matches = [];
     if (text.length > 0) {
-      matches = ucitoData.filter(city => {
+      matches = state.filter(city => {
         const regex = new RegExp(`${text}`, "gi");
         return city.State.match(regex) || city.Code.match(regex);
       })
     } else {
-      setError({
-        error: true,
-        message: 'No maching states!'
-      });
+      // setError({
+      //   error: true,
+      //   message: 'No maching states!'
+      // });
     }
-      console.log(matches)
     setSuggestions(matches);
     setText(text);
   }

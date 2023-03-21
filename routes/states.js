@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { createStates, getStates, getOneState } = require('../controllers/states');
+const { createStates, getStates, getStateCities } = require('../controllers/states');
 
 router.route('/').post(createStates);
 router.route('/').get(getStates);
-router.route('/search-state').post(getOneState);
+router.route('/search-state/:state').post(getStateCities);
 
 module.exports = router;

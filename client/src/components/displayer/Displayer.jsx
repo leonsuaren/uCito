@@ -6,7 +6,6 @@ import { UcitoDataContext } from '../../context/api';
 export const Displayer = () => {
   const ucitoDataContext = useContext(UcitoDataContext);
   const state = ucitoDataContext.state;
-  console.log(state)
   return (
     <TableContainer component={Paper}>
       <Table>

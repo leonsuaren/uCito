@@ -20,8 +20,9 @@ exports.getStates = async (req, res) => {
   }
 }
 
-exports.getOneState = async (req, res) => {
-  const { state } = req.body;
+exports.getStateCities = async (req, res) => {
+  const { state } = req.params;
+  console.log(state)
   const query = { State: state }
   try {
     const singleState = await States.find(query);

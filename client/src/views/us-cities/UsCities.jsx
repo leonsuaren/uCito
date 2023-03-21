@@ -1,22 +1,28 @@
-import { useContext } from 'react';
-
+import React from 'react';
 import { Grid } from '@mui/material';
+import axios from 'axios';
 
-import { UcitoDataContext } from '../../context/api';
-import { SearchingForm } from '../../components/searching-form';
-import { Displayer } from '../../components/displayer';
+import * as com from './../../components';
 
 export const UsCities = () => {
-  const ucitDataContext = useContext(UcitoDataContext);
-  const ucitoData = ucitDataContext.ucitoData;
+
+  const getServerData = uri => async () => {
+    const response = await axios.get(uri)
+    return response.data;
+  }
+
 
   return (
     <Grid container spacing={2} className='us-cities-container'>
       <Grid item xs={12} sm={12}>
-        <SearchingForm ucitoData={ucitoData}/>
+        <com.DataSource getDataFunc={getServerData('http://localhost:8080/api/states')} resourceName="state">
+          <com.SearchingForm />
+        </com.DataSource>
       </Grid>
       <Grid item item xs={12} sm={12}>
-        <Displayer />
+        <com.DataSource>
+          <com.Displayer />
+        </com.DataSource>
       </Grid>
     </Grid>
   )
