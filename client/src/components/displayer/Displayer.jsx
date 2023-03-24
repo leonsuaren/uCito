@@ -1,11 +1,17 @@
-import React, { useContext } from 'react';
-import { Table, TableContainer, TableHead, TableBody, TableRow, Paper, TableCell, tableClasses } from '@mui/material';
+import React from "react";
 
-import { UcitoDataContext } from '../../context/api';
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  Paper,
+  TableCell,
+  tableClasses,
+} from "@mui/material";
 
-export const Displayer = () => {
-  const ucitoDataContext = useContext(UcitoDataContext);
-  const state = ucitoDataContext.state;
+export const Displayer = ({ cities }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -16,19 +22,19 @@ export const Displayer = () => {
         </TableHead>
         <TableBody>
           {
-            state.map((city, key) => {
-              console.log(city)
-              return (
-                <TableRow key={key}>
-                  <TableCell component='th' scope='row'>
-                    {city}
-                  </TableCell>
-                </TableRow>
-              )
-            })
+            // cities.states.Cities.map((city, key) => {
+            //   console.log(city)
+            //   return (
+            //     <TableRow key={key}>
+            //       <TableCell component='th' scope='row'>
+            //         {city}
+            //       </TableCell>
+            //     </TableRow>
+            //   )
+            // })
           }
         </TableBody>
       </Table>
     </TableContainer>
-  )
-}
+  );
+};

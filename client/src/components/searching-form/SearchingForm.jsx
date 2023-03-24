@@ -1,41 +1,30 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Button, Input, Alert, Grid } from "@mui/material";
 
-import { UcitoDataContext } from '../../context/api';
-import { useFetch } from '../../hooks';
-import { DataSource } from '../../components';
+import { useFetch, useFetchCities } from "../../hooks";
+import * as com from "../../components";
 
-import { Button, Input, Alert } from '@mui/material';
+import "./style.css";
 
-import './style.css';
-
-export const SearchingForm = ({getDataFunc, state, resourceName }) => {
-  const ucitoDataContext = useContext(UcitoDataContext);
-  const [text, setText] = useState('');
+export const SearchingForm = () => {
+  const { data, loading, error } = useFetch("http://localhost:8080/api/states");
+  const [text, setText] = useState("");
+  const { cities, loadingCities, errorCities } = useFetchCities(text);
   const [suggestions, setSuggestions] = useState([]);
-  const [error, setError] = useState({});
-  console.log(state);
-  const getServerData = uri => async () => {
-    const response = await axios.post(uri)
-    return response.data;
-  }
-
+  // const [error, setError] = useState({});
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (text.length === 0) {
-      setError({
-        error: true,
-        message: 'Please enter a State!'
-      });
-    }
-    else if (suggestions.length === 0) {
+      // setError({
+      //   error: true,
+      //   message: 'Please enter a State!'
+      // });
+    } else if (suggestions.length === 0) {
       // setError({
       //   error: true,
       //   message: 'No Matching States!'
       // });
     }
-    resourceName='state'
-    getDataFunc(getServerData(`http://localhost:8080/api/states/search-state/${text}`))
     // await axios.post('http://localhost:8080/api/states/search-state', { state: text }).then((response) => {
     //   ucitoDataContext.setState(response.data.state[0].Cities);
     // }).catch((error) => {
@@ -56,15 +45,15 @@ export const SearchingForm = ({getDataFunc, state, resourceName }) => {
   const handleOnSuggest = (text) => {
     setText(text);
     // setSuggestions([]);
-  }
+  };
 
   const handleOnChange = (text) => {
     let matches = [];
     if (text.length > 0) {
-      matches = state.filter(city => {
+      matches = data.states.filter((city) => {
         const regex = new RegExp(`${text}`, "gi");
         return city.State.match(regex) || city.Code.match(regex);
-      })
+      });
     } else {
       // setError({
       //   error: true,
@@ -73,32 +62,47 @@ export const SearchingForm = ({getDataFunc, state, resourceName }) => {
     }
     setSuggestions(matches);
     setText(text);
-  }
+  };
 
   return (
     <div>
-      {
-        error.error ? <Alert severity='error'>{error.message}</Alert> : ''
-      }
-      <form className='form-style' onSubmit={(e) => handleOnSubmit(e)}>
-        <Input className='autocomplete-input-style'
-          type='text'
-          value={text}
-          onChange={e => handleOnChange(e.target.value)}
-        />
-        <Button className='search-button-style' variant="contained" type='submit'>Search City</Button>
-      </form>
-      <div className='cities-diaplay'>
-        {
-          suggestions && suggestions.map((suggestion, key) => {
-            return (
-              <div className='suggestions' key={key}
-                onClick={() => { handleOnSuggest(suggestion.State) }}
-              >{suggestion.State}, {suggestion.Code}</div>
-            )
-          })
-        }
-      </div>
+      <Grid item xs={12} sm={12}>
+        {error ? <Alert severity="error">{error.message}</Alert> : ""}
+        <form className="form-style" onSubmit={(e) => handleOnSubmit(e)}>
+          <Input
+            className="autocomplete-input-style"
+            type="text"
+            value={text}
+            onChange={(e) => handleOnChange(e.target.value)}
+          />
+          <Button
+            className="search-button-style"
+            variant="contained"
+            type="submit"
+          >
+            Search City
+          </Button>
+        </form>
+        <div className="cities-diaplay">
+          {suggestions &&
+            suggestions.map((suggestion, key) => {
+              return (
+                <div
+                  className="suggestions"
+                  key={key}
+                  onClick={() => {
+                    handleOnSuggest(suggestion.State);
+                  }}
+                >
+                  {suggestion.State}, {suggestion.Code}
+                </div>
+              );
+            })}
+        </div>
+      </Grid>
+      <Grid item item xs={12} sm={12}>
+        <com.Displayer cities={cities} />
+      </Grid>
     </div>
-  )
-}
+  );
+};
