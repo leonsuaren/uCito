@@ -1,12 +1,17 @@
-import { UsCities } from "./views/us-cities";
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from './utils';
 
+import { UsCities } from "./views/us-cities";
+import { theme } from './utils';
+  
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <h1>UCITO</h1>
       <h3>US Cities</h3>
       <UsCities />
-    </div>
+    </ThemeProvider>
   );
 }
 

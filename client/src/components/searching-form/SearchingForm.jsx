@@ -78,7 +78,7 @@ export const SearchingForm = () => {
             variant="contained"
             type="submit"
           >
-            Search City
+           <span>Search City</span> 
           </button>
         </form>
         <div className="cities-diaplay">
