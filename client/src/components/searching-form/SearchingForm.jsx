@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Button, Input, Alert, Grid } from "@mui/material";
 
 import { useFetch, useFetchCities } from "../../hooks";
-import * as com from "../../components";
 
 import "./style.css";
 
@@ -66,22 +64,22 @@ export const SearchingForm = () => {
 
   return (
     <div>
-      <Grid item xs={12} sm={12}>
-        {error ? <Alert severity="error">{error.message}</Alert> : ""}
+      <div item xs={12} sm={12}>
+        {error ? <alert severity="error">{error.message}</alert> : ""}
         <form className="form-style" onSubmit={(e) => handleOnSubmit(e)}>
-          <Input
+          <input
             className="autocomplete-input-style"
             type="text"
             value={text}
             onChange={(e) => handleOnChange(e.target.value)}
           />
-          <Button
+          <button
             className="search-button-style"
             variant="contained"
             type="submit"
           >
             Search City
-          </Button>
+          </button>
         </form>
         <div className="cities-diaplay">
           {suggestions &&
@@ -99,10 +97,8 @@ export const SearchingForm = () => {
               );
             })}
         </div>
-      </Grid>
-      <Grid item item xs={12} sm={12}>
-        <com.Displayer cities={cities} />
-      </Grid>
+      </div>
+
     </div>
   );
 };
