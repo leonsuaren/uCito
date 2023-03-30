@@ -1,16 +1,16 @@
 import React from 'react';
+import * as styled from './styled';
 
-import { SearchingForm } from '../../components/searching-form';
+import * as com from '../../components';
 import { useFetch } from '../../hooks/useFetch';
-import { Displayer } from '../../components/displayer/Displayer';
 
 export const UsCities = () => {
   const { data } = useFetch('http://localhost:8080/api/states');
   return (
-    <div>
+    <styled.Container>
       <h1>UCITO</h1>
       <h3>US Cities</h3>
-      <SearchingForm data={data} />
-    </div>
+      <com.SearchingForm data={data} />
+    </styled.Container>
   )
 }

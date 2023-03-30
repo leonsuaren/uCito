@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import "./styles.css";
 
 import { useFetchCities } from "../../hooks";
-
-import "./style.css";
-import { Displayer } from "../displayer/Displayer";
+import * as com from "../../components";
 
 export const SearchingForm = ({ data, error }) => {
   const [text, setText] = useState("");
@@ -57,7 +56,7 @@ export const SearchingForm = ({ data, error }) => {
 
   return (
     <div>
-      <div item xs={12} sm={12}>
+      <div>
         {error ? <alert severity="error">{error.message}</alert> : ""}
         <form className="form-style" onSubmit={(e) => handleOnSubmit(e)}>
           <input
@@ -91,7 +90,7 @@ export const SearchingForm = ({ data, error }) => {
             })}
         </div>
       </div>
-      <Displayer cities={cities} loadingCities={loadingCities} errorCities={errorCities}/>
+      <com.Displayer cities={cities} loadingCities={loadingCities} errorCities={errorCities} stateCities={stateCities}/>
     </div>
   );
 };

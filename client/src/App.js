@@ -1,14 +1,14 @@
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './utils';
 
-import { UsCities } from "./views/us-cities";
+import * as vie from "./views";
 import { theme } from './utils';
   
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <UsCities />
+      <vie.UsCities />
     </ThemeProvider>
   );
 }
