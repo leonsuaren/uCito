@@ -5,6 +5,6 @@ const { createStates, getStates, getStateCities } = require('../controllers/stat
 
 router.route('/').post(createStates);
 router.route('/').get(getStates);
-router.route('/search-state/:state').post(getStateCities);
+router.route('/search-state').post(getStateCities);
 
 module.exports = router;

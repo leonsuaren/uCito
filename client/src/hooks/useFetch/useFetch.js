@@ -5,6 +5,7 @@ export const useFetch = (uri) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // console.log(uri)
   useEffect(() => {
     if (!uri) return;
     (async () => {

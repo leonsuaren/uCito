@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 
-import { useFetch, useFetchCities } from "../../hooks";
+import { useFetchCities } from "../../hooks";
 
 import "./style.css";
+import { Displayer } from "../displayer/Displayer";
 
-export const SearchingForm = () => {
-  const { data, loading, error } = useFetch("http://localhost:8080/api/states");
+export const SearchingForm = ({ data, error }) => {
   const [text, setText] = useState("");
-  const { cities, loadingCities, errorCities } = useFetchCities(text);
+  const [stateCities, setStateCities] = useState('');
+  const { cities, loadingCities, errorCities } = useFetchCities(stateCities);
   const [suggestions, setSuggestions] = useState([]);
   // const [error, setError] = useState({});
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    setStateCities(text)
     if (text.length === 0) {
       // setError({
       //   error: true,
@@ -23,14 +25,6 @@ export const SearchingForm = () => {
       //   message: 'No Matching States!'
       // });
     }
-    // await axios.post('http://localhost:8080/api/states/search-state', { state: text }).then((response) => {
-    //   ucitoDataContext.setState(response.data.state[0].Cities);
-    // }).catch((error) => {
-    //   // setError({
-    //   //   error: true,
-    //   //   message: 'Something went wrong!'
-    //   // });
-    // });
     setSuggestions([]);
     setTimeout(() => {
       // setError({
@@ -42,7 +36,6 @@ export const SearchingForm = () => {
 
   const handleOnSuggest = (text) => {
     setText(text);
-    // setSuggestions([]);
   };
 
   const handleOnChange = (text) => {
@@ -78,7 +71,7 @@ export const SearchingForm = () => {
             variant="contained"
             type="submit"
           >
-           <span>Search City</span> 
+            <span>Search City</span>
           </button>
         </form>
         <div className="cities-diaplay">
@@ -98,7 +91,7 @@ export const SearchingForm = () => {
             })}
         </div>
       </div>
-
+      <Displayer cities={cities} loadingCities={loadingCities} errorCities={errorCities}/>
     </div>
   );
 };

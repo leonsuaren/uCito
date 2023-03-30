@@ -21,8 +21,7 @@ exports.getStates = async (req, res) => {
 }
 
 exports.getStateCities = async (req, res) => {
-  const { state } = req.params;
-  console.log(state)
+  const { state } = req.body;
   const query = { State: state }
   try {
     const singleState = await States.find(query);
