@@ -5,6 +5,7 @@ const commonWrapperStyled = css`
   justify-items: center;
   align-items: center;
   grid-gap: 5px;
+  z-index: 0;
 `;
 
 export const CitiesWrapper = styled.div`

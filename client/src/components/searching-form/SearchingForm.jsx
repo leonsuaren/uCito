@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import "./styles.css";
-
 import { useFetchCities } from "../../hooks";
 import * as com from "../../components";
+import * as styled from "./index";
 
 export const SearchingForm = ({ data, error }) => {
   const [text, setText] = useState("");
   const [stateCities, setStateCities] = useState('');
   const { cities, loadingCities, errorCities } = useFetchCities(stateCities);
   const [suggestions, setSuggestions] = useState([]);
+  const [showDisplay, setShowDisplay] = useState(false);
   // const [error, setError] = useState({});
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +31,7 @@ export const SearchingForm = ({ data, error }) => {
       //   message: ''
       // });
     }, 3000);
+    setShowDisplay(true);
   };
 
   const handleOnSuggest = (text) => {
@@ -44,12 +45,7 @@ export const SearchingForm = ({ data, error }) => {
         const regex = new RegExp(`${text}`, "gi");
         return city.State.match(regex) || city.Code.match(regex);
       });
-    } else {
-      // setError({
-      //   error: true,
-      //   message: 'No maching states!'
-      // });
-    }
+    } 
     setSuggestions(matches);
     setText(text);
   };
@@ -58,39 +54,41 @@ export const SearchingForm = ({ data, error }) => {
     <div>
       <div>
         {error ? <alert severity="error">{error.message}</alert> : ""}
-        <form className="form-style" onSubmit={(e) => handleOnSubmit(e)}>
-          <input
-            className="autocomplete-input-style"
+        <styled.FormStyled onSubmit={(e) => handleOnSubmit(e)}>
+          <styled.AutocompleteInput
+            placeholder='Enter State'
             type="text"
             value={text}
             onChange={(e) => handleOnChange(e.target.value)}
           />
-          <button
-            className="search-button-style"
+          <styled.SearchButton
             variant="contained"
             type="submit"
           >
-            <span>Search City</span>
-          </button>
-        </form>
-        <div className="cities-diaplay">
+            <span>Search Cities</span>
+          </styled.SearchButton>
+        </styled.FormStyled>
+        <styled.CitiesDisplay>
           {suggestions &&
             suggestions.map((suggestion, key) => {
               return (
-                <div
-                  className="suggestions"
+                <styled.Suggestions
                   key={key}
                   onClick={() => {
                     handleOnSuggest(suggestion.State);
                   }}
                 >
                   {suggestion.State}, {suggestion.Code}
-                </div>
+                </styled.Suggestions>
               );
             })}
-        </div>
+        </styled.CitiesDisplay>
       </div>
-      <com.Displayer cities={cities} loadingCities={loadingCities} errorCities={errorCities} stateCities={stateCities}/>
+      {
+        showDisplay ?
+        <com.Displayer cities={cities} loadingCities={loadingCities} errorCities={errorCities} stateCities={stateCities} showDisplay={showDisplay} setShowDisplay={setShowDisplay}/>
+        : ''
+      }
     </div>
   );
 };

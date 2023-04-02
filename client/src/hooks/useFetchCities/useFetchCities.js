@@ -5,7 +5,6 @@ export const useFetchCities = (state) => {
   const [cities, setCities] = useState([]);
   const [loadingCities, setLoadingCities] = useState(true);
   const [errorCities, setErrorCities] = useState();
-  // console.log({useFetchCities: cities});
   useEffect(() => {
     if (!state) return;
     axios
