@@ -3,7 +3,7 @@ import { useFetchCities } from "../../hooks";
 import * as com from "../../components";
 import * as styled from "./index";
 
-export const SearchingForm = ({ data, error }) => {
+export const SearchingForm = ({ data }) => {
   const [text, setText] = useState("");
   const [stateCities, setStateCities] = useState('');
   const { cities, loadingCities, errorCities } = useFetchCities(stateCities);
@@ -53,7 +53,7 @@ export const SearchingForm = ({ data, error }) => {
   return (
     <div>
       <div>
-        {error ? <alert severity="error">{error.message}</alert> : ""}
+        {/*error ? <alert severity="error">{error.message}</alert> : ""*/}
         <styled.FormStyled onSubmit={(e) => handleOnSubmit(e)}>
           <styled.AutocompleteInput
             placeholder='Enter State'
