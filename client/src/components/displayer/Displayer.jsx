@@ -1,9 +1,10 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment } from "react";
 import * as styled from './index';
+import * as com from '../../components';
 
 export const Displayer = ({ cities = [], loadingCities, errorCities, stateCities }) => {
-  if (loadingCities) return 
   if (errorCities) return 
+  if (loadingCities) return <com.Loading />;
   let citiesCount = cities.state[0].Cities.length || 0;
   let stateCode = cities.state[0].Code;
 

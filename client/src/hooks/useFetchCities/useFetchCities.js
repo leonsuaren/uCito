@@ -13,7 +13,11 @@ export const useFetchCities = (state) => {
       })
       .then((response) => response.data)
       .then(setCities)
-      .then(() => setLoadingCities(false))
+      .then(() => {
+        setTimeout(() => {
+          setLoadingCities(false)
+        }, 3000)
+      })
       .catch((error) => setErrorCities(error));
   }, [state]);
 
